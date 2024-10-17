@@ -4,6 +4,7 @@ import Description from "./components/Description/Description";
 import Options from "./components/Options/Options";
 import Feedback from "./components/Feedback/Feedback";
 import Notification from "./components/Notification/Notification";
+
 const App = () => {
   const [votingData, setVotingData] = useState(() => {
     const savedVotes = window.localStorage.getItem("saved-votes");
@@ -13,6 +14,8 @@ const App = () => {
   });
 
   const totalFeedback = votingData.good + votingData.neutral + votingData.bad;
+  const positivePercentage =
+    totalFeedback > 0 ? Math.round((votingData.good / totalFeedback) * 100) : 0;
 
   useEffect(() => {
     window.localStorage.setItem("saved-votes", JSON.stringify(votingData));
@@ -40,6 +43,7 @@ const App = () => {
           neutral={votingData.neutral}
           bad={votingData.bad}
           totalFeedback={totalFeedback}
+          positivePercentage={positivePercentage}
         />
       ) : (
         <Notification />
